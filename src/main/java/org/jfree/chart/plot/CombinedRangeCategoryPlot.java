@@ -73,6 +73,7 @@ import java.util.List;
 
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.AxisSpace;
+import org.jfree.chart.axis.AxisSpaceOperations;
 import org.jfree.chart.axis.AxisState;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -272,7 +273,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
             }
         }
 
-        Rectangle2D adjustedPlotArea = space.shrink(plotArea, null);
+        Rectangle2D adjustedPlotArea = AxisSpaceOperations.shrink(plotArea, null, space);
         // work out the maximum height or width of the non-shared axes...
         int n = this.subplots.size();
         int totalWeight = 0;
@@ -312,7 +313,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
 
             AxisSpace subSpace = plot.calculateDomainAxisSpace(g2,
                     this.subplotArea[i], null);
-            space.ensureAtLeast(subSpace);
+            AxisSpaceOperations.ensureAtLeast(subSpace, space);
 
         }
 
@@ -348,7 +349,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
 
         // calculate the data area...
         AxisSpace space = calculateAxisSpace(g2, area);
-        Rectangle2D dataArea = space.shrink(area, null);
+        Rectangle2D dataArea = AxisSpaceOperations.shrink(area, null, space);
 
         // set the width and height of non-shared axis of all sub-plots
         setFixedDomainAxisSpaceForSubplots(space);

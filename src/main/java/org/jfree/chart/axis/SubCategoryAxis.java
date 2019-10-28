@@ -194,10 +194,10 @@ public class SubCategoryAxis extends CategoryAxis
         space = super.reserveSpace(g2, plot, plotArea, edge, space);
         double maxdim = getMaxDim(g2, edge);
         if (RectangleEdge.isTopOrBottom(edge)) {
-            space.add(maxdim, edge);
+        	AxisSpaceOperations.add(maxdim, edge, space);
         }
         else if (RectangleEdge.isLeftOrRight(edge)) {
-            space.add(maxdim, edge);
+        	AxisSpaceOperations.add(maxdim, edge, space);
         }
         return space;
     }

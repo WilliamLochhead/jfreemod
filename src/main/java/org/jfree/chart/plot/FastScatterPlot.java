@@ -89,6 +89,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.jfree.chart.axis.AxisSpace;
+import org.jfree.chart.axis.AxisSpaceOperations;
 import org.jfree.chart.axis.AxisState;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -538,7 +539,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
                 RectangleEdge.BOTTOM, space);
         space = this.rangeAxis.reserveSpace(g2, this, area, RectangleEdge.LEFT,
                 space);
-        Rectangle2D dataArea = space.shrink(area, null);
+        Rectangle2D dataArea = AxisSpaceOperations.shrink(area, null, space);
 
         if (info != null) {
             info.setDataArea(dataArea);

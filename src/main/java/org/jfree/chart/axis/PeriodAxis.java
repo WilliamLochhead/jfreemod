@@ -590,7 +590,7 @@ public class PeriodAxis extends ValueAxis
         // if the axis has a fixed dimension, return it...
         double dimension = getFixedDimension();
         if (dimension > 0.0) {
-            space.ensureAtLeast(dimension, edge);
+            AxisSpaceOperations.ensureAtLeast(dimension, edge, space);
         }
 
         // get the axis label size and update the space object...
@@ -607,11 +607,11 @@ public class PeriodAxis extends ValueAxis
 
         if (RectangleEdge.isTopOrBottom(edge)) {
             labelHeight = labelEnclosure.getHeight();
-            space.add(labelHeight + tickLabelBandsDimension, edge);
+            AxisSpaceOperations.add(labelHeight + tickLabelBandsDimension, edge, space);
         }
         else if (RectangleEdge.isLeftOrRight(edge)) {
             labelWidth = labelEnclosure.getWidth();
-            space.add(labelWidth + tickLabelBandsDimension, edge);
+            AxisSpaceOperations.add(labelWidth + tickLabelBandsDimension, edge, space);
         }
 
         // add space for the outer tick labels, if any...
@@ -623,7 +623,7 @@ public class PeriodAxis extends ValueAxis
             tickMarkSpace = Math.max(tickMarkSpace,
                     this.minorTickMarkOutsideLength);
         }
-        space.add(tickMarkSpace, edge);
+        AxisSpaceOperations.add(tickMarkSpace, edge, space);
         return space;
     }
 

@@ -1092,18 +1092,18 @@ public class CyclicNumberAxis extends NumberAxis {
 
         if (RectangleEdge.isTopOrBottom(edge)) {
             if (isVerticalTickLabels()) {
-                space.add(r.getHeight() / 2, RectangleEdge.RIGHT);
+                AxisSpaceOperations.add(r.getHeight() / 2, RectangleEdge.RIGHT, space);
             }
             else {
-                space.add(r.getWidth() / 2, RectangleEdge.RIGHT);
+            	AxisSpaceOperations.add(r.getWidth() / 2, RectangleEdge.RIGHT, space);
             }
         }
         else if (RectangleEdge.isLeftOrRight(edge)) {
             if (isVerticalTickLabels()) {
-                space.add(r.getWidth() / 2, RectangleEdge.TOP);
+            	AxisSpaceOperations.add(r.getWidth() / 2, RectangleEdge.TOP, space);
             }
             else {
-                space.add(r.getHeight() / 2, RectangleEdge.TOP);
+            	AxisSpaceOperations.add(r.getHeight() / 2, RectangleEdge.TOP, space);
             }
         }
 

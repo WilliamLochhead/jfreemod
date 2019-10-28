@@ -794,7 +794,7 @@ public abstract class ValueAxis extends Axis
         // if the axis has a fixed dimension, return it...
         double dimension = getFixedDimension();
         if (dimension > 0.0) {
-            space.add(dimension, edge);
+        	AxisSpaceOperations.add(dimension, edge, space);
             return space;
         }
 
@@ -818,11 +818,11 @@ public abstract class ValueAxis extends Axis
         Rectangle2D labelEnclosure = getLabelEnclosure(g2, edge);
         if (RectangleEdge.isTopOrBottom(edge)) {
             double labelHeight = labelEnclosure.getHeight();
-            space.add(labelHeight + tickLabelHeight, edge);
+            AxisSpaceOperations.add(labelHeight + tickLabelHeight, edge, space);
         }
         else if (RectangleEdge.isLeftOrRight(edge)) {
             double labelWidth = labelEnclosure.getWidth();
-            space.add(labelWidth + tickLabelWidth, edge);
+            AxisSpaceOperations.add(labelWidth + tickLabelWidth, edge, space);
         }
 
         return space;

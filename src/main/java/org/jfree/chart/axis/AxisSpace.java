@@ -62,16 +62,16 @@ public class AxisSpace implements Cloneable, PublicCloneable, Serializable {
     private static final long serialVersionUID = -2490732595134766305L;
 
     /** The top space. */
-    private double top;
+    double top;
 
     /** The bottom space. */
-    private double bottom;
+    double bottom;
 
     /** The left space. */
-    private double left;
+    double left;
 
     /** The right space. */
-    private double right;
+    double right;
 
     /**
      * Creates a new axis space record.
@@ -153,156 +153,7 @@ public class AxisSpace implements Cloneable, PublicCloneable, Serializable {
      */
     public void setRight(double space) {
         this.right = space;
-    }
-
-    /**
-     * Adds space to the top, bottom, left or right edge of the plot area.
-     *
-     * @param space  the space (in Java2D units).
-     * @param edge  the edge ({@code null} not permitted).
-     */
-    public void add(double space, RectangleEdge edge) {
-        Args.nullNotPermitted(edge, "edge");
-        if (edge == RectangleEdge.TOP) {
-            this.top += space;
-        }
-        else if (edge == RectangleEdge.BOTTOM) {
-            this.bottom += space;
-        }
-        else if (edge == RectangleEdge.LEFT) {
-            this.left += space;
-        }
-        else if (edge == RectangleEdge.RIGHT) {
-            this.right += space;
-        }
-        else {
-            throw new IllegalStateException("Unrecognised 'edge' argument.");
-        }
-    }
-
-    /**
-     * Ensures that this object reserves at least as much space as another.
-     *
-     * @param space  the other space.
-     */
-    public void ensureAtLeast(AxisSpace space) {
-        this.top = Math.max(this.top, space.top);
-        this.bottom = Math.max(this.bottom, space.bottom);
-        this.left = Math.max(this.left, space.left);
-        this.right = Math.max(this.right, space.right);
-    }
-
-    /**
-     * Ensures there is a minimum amount of space at the edge corresponding to
-     * the specified axis location.
-     *
-     * @param space  the space.
-     * @param edge  the location.
-     */
-    public void ensureAtLeast(double space, RectangleEdge edge) {
-        if (edge == RectangleEdge.TOP) {
-            if (this.top < space) {
-                this.top = space;
-            }
-        }
-        else if (edge == RectangleEdge.BOTTOM) {
-            if (this.bottom < space) {
-                this.bottom = space;
-            }
-        }
-        else if (edge == RectangleEdge.LEFT) {
-            if (this.left < space) {
-                this.left = space;
-            }
-        }
-        else if (edge == RectangleEdge.RIGHT) {
-            if (this.right < space) {
-                this.right = space;
-            }
-        }
-        else {
-            throw new IllegalStateException(
-                "AxisSpace.ensureAtLeast(): unrecognised AxisLocation."
-            );
-        }
-    }
-
-    /**
-     * Shrinks an area by the space attributes.
-     *
-     * @param area  the area to shrink.
-     * @param result  an optional carrier for the result.
-     *
-     * @return The result.
-     */
-    public Rectangle2D shrink(Rectangle2D area, Rectangle2D result) {
-        if (result == null) {
-            result = new Rectangle2D.Double();
-        }
-        result.setRect(
-            area.getX() + this.left,
-            area.getY() + this.top,
-            area.getWidth() - this.left - this.right,
-            area.getHeight() - this.top - this.bottom
-        );
-        return result;
-    }
-
-    /**
-     * Expands an area by the amount of space represented by this object.
-     *
-     * @param area  the area to expand.
-     * @param result  an optional carrier for the result.
-     *
-     * @return The result.
-     */
-    public Rectangle2D expand(Rectangle2D area, Rectangle2D result) {
-        if (result == null) {
-            result = new Rectangle2D.Double();
-        }
-        result.setRect(
-            area.getX() - this.left,
-            area.getY() - this.top,
-            area.getWidth() + this.left + this.right,
-            area.getHeight() + this.top + this.bottom
-        );
-        return result;
-    }
-
-    /**
-     * Calculates the reserved area.
-     *
-     * @param area  the area.
-     * @param edge  the edge.
-     *
-     * @return The reserved area.
-     */
-    public Rectangle2D reserved(Rectangle2D area, RectangleEdge edge) {
-        Rectangle2D result = null;
-        if (edge == RectangleEdge.TOP) {
-            result = new Rectangle2D.Double(
-                area.getX(), area.getY(), area.getWidth(), this.top
-            );
-        }
-        else if (edge == RectangleEdge.BOTTOM) {
-            result = new Rectangle2D.Double(
-                area.getX(), area.getMaxY() - this.top,
-                area.getWidth(), this.bottom
-            );
-        }
-        else if (edge == RectangleEdge.LEFT) {
-            result = new Rectangle2D.Double(
-                area.getX(), area.getY(), this.left, area.getHeight()
-            );
-        }
-        else if (edge == RectangleEdge.RIGHT) {
-            result = new Rectangle2D.Double(
-                area.getMaxX() - this.right, area.getY(),
-                this.right, area.getHeight()
-            );
-        }
-        return result;
-    }
+    }    
 
     /**
      * Returns a clone of the object.

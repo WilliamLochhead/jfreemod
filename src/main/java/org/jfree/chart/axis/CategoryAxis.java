@@ -928,13 +928,13 @@ public class CategoryAxis extends Axis implements Cloneable, Serializable {
         double labelHeight, labelWidth;
         if (RectangleEdge.isTopOrBottom(edge)) {
             labelHeight = labelEnclosure.getHeight();
-            space.add(labelHeight + tickLabelHeight
-                    + this.categoryLabelPositionOffset, edge);
+            AxisSpaceOperations.add(labelHeight + tickLabelHeight
+                    + this.categoryLabelPositionOffset, edge, space);
         }
         else if (RectangleEdge.isLeftOrRight(edge)) {
             labelWidth = labelEnclosure.getWidth();
-            space.add(labelWidth + tickLabelWidth
-                    + this.categoryLabelPositionOffset, edge);
+            AxisSpaceOperations.add(labelWidth + tickLabelWidth
+                    + this.categoryLabelPositionOffset, edge, space);
         }
         return space;
     }

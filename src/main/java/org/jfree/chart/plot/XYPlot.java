@@ -276,6 +276,7 @@ import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.AxisCollection;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.AxisSpace;
+import org.jfree.chart.axis.AxisSpaceOperations;
 import org.jfree.chart.axis.AxisState;
 import org.jfree.chart.axis.TickType;
 import org.jfree.chart.axis.ValueAxis;
@@ -2988,7 +2989,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                                            Rectangle2D plotArea) {
         AxisSpace space = new AxisSpace();
         space = calculateRangeAxisSpace(g2, plotArea, space);
-        Rectangle2D revPlotArea = space.shrink(plotArea, null);
+        Rectangle2D revPlotArea = AxisSpaceOperations.shrink(plotArea, null, space);
         space = calculateDomainAxisSpace(g2, revPlotArea, space);
         return space;
     }
@@ -3012,16 +3013,16 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // reserve some space for the domain axis...
         if (this.fixedDomainAxisSpace != null) {
             if (this.orientation == PlotOrientation.HORIZONTAL) {
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getLeft(),
-                        RectangleEdge.LEFT);
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getRight(),
-                        RectangleEdge.RIGHT);
+                AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getLeft(),
+                        RectangleEdge.LEFT, space);
+                AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getRight(),
+                        RectangleEdge.RIGHT, space);
             }
             else if (this.orientation == PlotOrientation.VERTICAL) {
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getTop(),
-                        RectangleEdge.TOP);
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getBottom(),
-                        RectangleEdge.BOTTOM);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getTop(),
+                        RectangleEdge.TOP, space);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getBottom(),
+                        RectangleEdge.BOTTOM, space);
             }
         }
         else {
@@ -3058,16 +3059,16 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // reserve some space for the range axis...
         if (this.fixedRangeAxisSpace != null) {
             if (this.orientation == PlotOrientation.HORIZONTAL) {
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getTop(),
-                        RectangleEdge.TOP);
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getBottom(),
-                        RectangleEdge.BOTTOM);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getTop(),
+                        RectangleEdge.TOP, space);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getBottom(),
+                        RectangleEdge.BOTTOM, space);
             }
             else if (this.orientation == PlotOrientation.VERTICAL) {
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getLeft(),
-                        RectangleEdge.LEFT);
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getRight(),
-                        RectangleEdge.RIGHT);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getLeft(),
+                        RectangleEdge.LEFT, space);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getRight(),
+                        RectangleEdge.RIGHT, space);
             }
         }
         else {
@@ -3132,7 +3133,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         insets.trim(area);
 
         AxisSpace space = calculateAxisSpace(g2, area);
-        Rectangle2D dataArea = space.shrink(area, null);
+        Rectangle2D dataArea = AxisSpaceOperations.shrink(area, null, space);
         this.axisOffset.trim(dataArea);
 
         dataArea = integerise(dataArea);

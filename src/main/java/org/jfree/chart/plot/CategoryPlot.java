@@ -225,6 +225,7 @@ import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.AxisCollection;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.AxisSpace;
+import org.jfree.chart.axis.AxisSpaceOperations;
 import org.jfree.chart.axis.AxisState;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
@@ -3360,15 +3361,15 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // reserve some space for the domain axis...
         if (this.fixedDomainAxisSpace != null) {
             if (this.orientation.isHorizontal()) {
-                space.ensureAtLeast(
-                    this.fixedDomainAxisSpace.getLeft(), RectangleEdge.LEFT);
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getRight(),
-                        RectangleEdge.RIGHT);
+            	AxisSpaceOperations.ensureAtLeast(
+                    this.fixedDomainAxisSpace.getLeft(), RectangleEdge.LEFT, space);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getRight(),
+                        RectangleEdge.RIGHT, space);
             } else if (this.orientation.isVertical()) {
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getTop(),
-                        RectangleEdge.TOP);
-                space.ensureAtLeast(this.fixedDomainAxisSpace.getBottom(),
-                        RectangleEdge.BOTTOM);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getTop(),
+                        RectangleEdge.TOP, space);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedDomainAxisSpace.getBottom(),
+                        RectangleEdge.BOTTOM, space);
             }
         }
         else {
@@ -3413,15 +3414,15 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // reserve some space for the range axis...
         if (this.fixedRangeAxisSpace != null) {
             if (this.orientation.isHorizontal()) {
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getTop(),
-                        RectangleEdge.TOP);
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getBottom(),
-                        RectangleEdge.BOTTOM);
+                AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getTop(),
+                        RectangleEdge.TOP, space);
+                AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getBottom(),
+                        RectangleEdge.BOTTOM, space);
             } else if (this.orientation == PlotOrientation.VERTICAL) {
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getLeft(),
-                        RectangleEdge.LEFT);
-                space.ensureAtLeast(this.fixedRangeAxisSpace.getRight(),
-                        RectangleEdge.RIGHT);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getLeft(),
+                        RectangleEdge.LEFT, space);
+            	AxisSpaceOperations.ensureAtLeast(this.fixedRangeAxisSpace.getRight(),
+                        RectangleEdge.RIGHT, space);
             }
         } else {
             // reserve space for the range axes (if any)...
@@ -3510,7 +3511,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
 
         // calculate the data area...
         AxisSpace space = calculateAxisSpace(g2, area);
-        Rectangle2D dataArea = space.shrink(area, null);
+        Rectangle2D dataArea = AxisSpaceOperations.shrink(area, null, space);
         this.axisOffset.trim(dataArea);
         dataArea = integerise(dataArea);
         if (dataArea.isEmpty()) {
