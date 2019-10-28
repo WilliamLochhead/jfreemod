@@ -1103,75 +1103,81 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                         low, dataArea.getWidth(),
                         high - low);
             }
-            Paint p = marker.getPaint();
-            if (p instanceof GradientPaint) {
-                GradientPaint gp = (GradientPaint) p;
-                GradientPaintTransformer t = im.getGradientPaintTransformer();
-                if (t != null) {
-                    gp = t.transform(gp, rect);
-                }
-                g2.setPaint(gp);
-            }
-            else {
-                g2.setPaint(p);
-            }
-            g2.fill(rect);
-
-            // now draw the outlines, if visible...
-            if (im.getOutlinePaint() != null && im.getOutlineStroke() != null) {
-                if (orientation == PlotOrientation.VERTICAL) {
-                    Line2D line = new Line2D.Double();
-                    double x0 = dataArea.getMinX();
-                    double x1 = dataArea.getMaxX();
-                    g2.setPaint(im.getOutlinePaint());
-                    g2.setStroke(im.getOutlineStroke());
-                    if (range.contains(start)) {
-                        line.setLine(x0, start2d, x1, start2d);
-                        g2.draw(line);
-                    }
-                    if (range.contains(end)) {
-                        line.setLine(x0, end2d, x1, end2d);
-                        g2.draw(line);
-                    }
-                } else { // PlotOrientation.HORIZONTAL
-                    Line2D line = new Line2D.Double();
-                    double y0 = dataArea.getMinY();
-                    double y1 = dataArea.getMaxY();
-                    g2.setPaint(im.getOutlinePaint());
-                    g2.setStroke(im.getOutlineStroke());
-                    if (range.contains(start)) {
-                        line.setLine(start2d, y0, start2d, y1);
-                        g2.draw(line);
-                    }
-                    if (range.contains(end)) {
-                        line.setLine(end2d, y0, end2d, y1);
-                        g2.draw(line);
-                    }
-                }
-            }
-
-            String label = marker.getLabel();
-            RectangleAnchor anchor = marker.getLabelAnchor();
-            if (label != null) {
-                Font labelFont = marker.getLabelFont();
-                g2.setFont(labelFont);
-                Point2D coords = calculateRangeMarkerTextAnchorPoint(
-                        g2, orientation, dataArea, rect,
-                        marker.getLabelOffset(), marker.getLabelOffsetType(),
-                        anchor);
-                Rectangle2D r = TextUtils.calcAlignedStringBounds(label, 
-                        g2, (float) coords.getX(), (float) coords.getY(), 
-                        marker.getLabelTextAnchor());
-                g2.setPaint(marker.getLabelBackgroundColor());
-                g2.fill(r);
-                g2.setPaint(marker.getLabelPaint());
-                TextUtils.drawAlignedString(label, g2,
-                        (float) coords.getX(), (float) coords.getY(),
-                        marker.getLabelTextAnchor());
-            }
+            intervalMarkerOperations(g2, marker, dataArea, im, start, end, range, start2d, end2d, orientation, rect);
             g2.setComposite(savedComposite);
         }
     }
+
+	public static void intervalMarkerOperations(Graphics2D g2, Marker marker, Rectangle2D dataArea, IntervalMarker im,
+			double start, double end, Range range, double start2d, double end2d, PlotOrientation orientation,
+			Rectangle2D rect) {
+		Paint p = marker.getPaint();
+		if (p instanceof GradientPaint) {
+		    GradientPaint gp = (GradientPaint) p;
+		    GradientPaintTransformer t = im.getGradientPaintTransformer();
+		    if (t != null) {
+		        gp = t.transform(gp, rect);
+		    }
+		    g2.setPaint(gp);
+		}
+		else {
+		    g2.setPaint(p);
+		}
+		g2.fill(rect);
+
+		// now draw the outlines, if visible...
+		if (im.getOutlinePaint() != null && im.getOutlineStroke() != null) {
+		    if (orientation == PlotOrientation.VERTICAL) {
+		        Line2D line = new Line2D.Double();
+		        double x0 = dataArea.getMinX();
+		        double x1 = dataArea.getMaxX();
+		        g2.setPaint(im.getOutlinePaint());
+		        g2.setStroke(im.getOutlineStroke());
+		        if (range.contains(start)) {
+		            line.setLine(x0, start2d, x1, start2d);
+		            g2.draw(line);
+		        }
+		        if (range.contains(end)) {
+		            line.setLine(x0, end2d, x1, end2d);
+		            g2.draw(line);
+		        }
+		    } else { // PlotOrientation.HORIZONTAL
+		        Line2D line = new Line2D.Double();
+		        double y0 = dataArea.getMinY();
+		        double y1 = dataArea.getMaxY();
+		        g2.setPaint(im.getOutlinePaint());
+		        g2.setStroke(im.getOutlineStroke());
+		        if (range.contains(start)) {
+		            line.setLine(start2d, y0, start2d, y1);
+		            g2.draw(line);
+		        }
+		        if (range.contains(end)) {
+		            line.setLine(end2d, y0, end2d, y1);
+		            g2.draw(line);
+		        }
+		    }
+		}
+
+		String label = marker.getLabel();
+		RectangleAnchor anchor = marker.getLabelAnchor();
+		if (label != null) {
+		    Font labelFont = marker.getLabelFont();
+		    g2.setFont(labelFont);
+		    Point2D coords = calculateRangeMarkerTextAnchorPoint(
+		            g2, orientation, dataArea, rect,
+		            marker.getLabelOffset(), marker.getLabelOffsetType(),
+		            anchor);
+		    Rectangle2D r = TextUtils.calcAlignedStringBounds(label, 
+		            g2, (float) coords.getX(), (float) coords.getY(), 
+		            marker.getLabelTextAnchor());
+		    g2.setPaint(marker.getLabelBackgroundColor());
+		    g2.fill(r);
+		    g2.setPaint(marker.getLabelPaint());
+		    TextUtils.drawAlignedString(label, g2,
+		            (float) coords.getX(), (float) coords.getY(),
+		            marker.getLabelTextAnchor());
+		}
+	}
 
     /**
      * Calculates the {@code (x, y)} coordinates for drawing the label for a 
@@ -1216,7 +1222,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The coordinates for drawing the marker label.
      */
-    protected Point2D calculateRangeMarkerTextAnchorPoint(Graphics2D g2,
+    protected static Point2D calculateRangeMarkerTextAnchorPoint(Graphics2D g2,
             PlotOrientation orientation, Rectangle2D dataArea,
             Rectangle2D markerArea, RectangleInsets markerOffset,
             LengthAdjustmentType labelOffsetType, RectangleAnchor anchor) {
